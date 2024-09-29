@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HTX - AR & VR</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <style>
+    @media only screen and (min-width: 900px) {
+      model-viewer {
+        width: 100vw;
+        height: 100vh;
+        }
+    }
+    @media only screen and (max-width: 800px) {
+      model-viewer {
+          width: 100vw;
+          height: 100vh;
+        }
+    }
+    showModel {
+        align-content: flex-start;
+        width: 100vw;
+        height: 100vh;
+    }
+
+</style>
+</head>
+<body>
+  <header class="bg-dark text-white p-5 text-center">
+    <h1 class="display-4">HTX - 3D laptop & Android</h1>
+  </header>
+  <section class="container mt-5">
+    <div class="row">
+      <div class="col-md-12">
+        
+        <div id="showModel">
+            <h1 id="myhead">DNA</h1>
+            <model-viewer 
+                    id="mv1" 
+                 camera-controls  
+                 camera-orbit="45deg 55deg 4m" 
+                 src="models/dna.glb" 
+                 ar ar-modes="scene-viewer webxr quick-look" 
+                 alt="3D Model" 
+                 style="background-color: ffffff;">
+             </model-viewer>					
+                             
+           
+         </div>
+        
+      </div>      
+    </div>
+
+    <div class="row">
+        <div class="col-md-3">
+            <button id="primaryButton" type="button" class="btn btn-primary">DNA</button>
+        </div>
+        <div class="col-md-3">
+            <button id="secondaryButton" type="button" class="btn btn-secondary">Muteret DNA</button>
+        </div>
+        <div class="col-md-6">
+            
+        </div>
+    </div>
+
+  </section>
+  <footer class="bg-dark text-white p-5 text-center">
+    <p>&copy; 2024 mko. All rights reserved. Billeder er downloadet fra https://freepik.com</p>
+  </footer>
+
+
+   <!-- Import the component -->
+<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+<script  type="module">
+   
+   // A $( document ).ready() block.
+   $( document ).ready(function() {
+       console.log( "ready!" );
+       const primaryButton = document.getElementById('primaryButton');
+       const secondaryButton = document.getElementById('secondaryButton');
+       const element = document.getElementById("mv1");
+       const head1 = document.getElementById("myhead");
+       //link to images to swap on modelviewer
+       let img1 = "models/textures/Material_baseColor.png";
+       let img2 = "models/textures/Material_baseColor1.png";
+       let material="";
+
+       //listener for load on ModelViewer
+       element.addEventListener('load', () => {
+           
+           console.log(element);
+           material = element.model.materials[0];
+           
+       
+
+           const createAndApplyTexture = async (channel, data) => {
+               const texture = await element.createTexture(data);
+               //material[channel].setTexture(texture);
+               //console.log(texture); //er ok
+               
+               material.pbrMetallicRoughness[channel].setTexture(texture);
+               //console.log(channel);
+           }
+       
+           primaryButton.addEventListener('click', () => {
+               console.log('Primary button clicked');
+               // Add your desired functionality here
+               head1.textContent = "DNA";
+               createAndApplyTexture('baseColorTexture', img1);
+               //element.src = "models/dna.glb"; // Replace "new_image_url.jpg" with the desired URL
+           });
+
+           secondaryButton.addEventListener('click', () => {
+               console.log('Secondary button clicked');
+               // Add your desired functionality here
+               // Get the element with the ID "mv1"
+               // Change the src attribute
+               head1.textContent = "Muteret DNA";
+               createAndApplyTexture('baseColorTexture', img2);
+               //element.src = "models/dna1.glb"; // Replace "new_image_url.jpg" with the desired URL
+           });
+
+       });
+
+   });
+   
+   
+   
+</script>
+   
+</body>
+</html>

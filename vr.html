@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HTX - AR & VR</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <!-- Use A-frame -->
+  <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+    
+  <!-- Adds environments -->
+  <script src="https://unpkg.com/aframe-environment-component/dist/aframe-environment-component.min.js"></script>
+  
+  <!-- Adds support for Oculus/Meta thumbstick controls for movement -->
+  <script src="https://gftruj.github.io/webzamples/aframe/controls/oculus-thumbstick-controls.js"></script>
+ 
+</head>
+<body>
+  <header class="bg-dark text-white p-5 text-center">
+    <h1 class="display-4">HTX - Quest VR</h1>
+  </header>
+  <section class="container mt-5">
+    <div class="row">
+      <div class="col-md-12">
+        
+       <!-- start vr -->
+					
+       <a-scene shadow="type: pcfsoft;">
+
+        <a-assets>
+            <a-asset-item id="dna-model" src="models/dna5.glb" crossOrigin="anonymous"></a-asset-item> 
+          </a-assets>
+  
+        <!-- Environment -->
+        <a-entity environment="preset: checkerboard; fog: 0.8; dressingColor: purple; dressing: towers; dressingAmount: 500; shadow: true; lightPosition: 0 5 -5"></a-entity>
+        
+         <a-entity shadow="cast:true; receive:true"> <!-- Adds shadows for objects inside -->
+           
+         <a-entity scale="1 .7 1"> <!-- Squash the pumpkin vertically -->  
+           
+         
+        
+        </a-entity>
+        
+        <a-gltf-model src="#dna-model" position="0 2 -2" rotation="0 -30 20" scale="2 2 2" class="rotateTarget"
+        event-set__1="_event: click;"
+        animation__rotate="property: rotation; dir: forward; dur: 8000;
+                                       easing: easeInSine; loop: false; from: 0 -30 0; to: 0 330 0;
+                                       startEvents:click">
+                                       </a-gltf-model>
+        
+
+        </a-entity>
+
+        <a-entity light="type: directional; color: #FFF; intensity: 0.6" position="-0.5 1 1"></a-entity>
+        <a-entity light="type: directional; color: #FFF; intensity: 0.6" position="2 0 1"></a-entity>
+      
+        <!-- Dim ambient lighting. -->
+      <a-light type="ambient" color="#fff"></a-light>
+        
+      
+        <!-- Controls for Meta quest and similar headsets -->
+        <a-entity id="rig">
+          <a-camera position="0 1.6 0"></a-camera>
+          <a-entity oculus-touch-controls="hand: left" ></a-entity>
+          <a-entity oculus-touch-controls="hand: right" oculus-thumbstick-controls></a-entity>
+        </a-entity>
+  
+      </a-scene>
+    <!-- end vr -->
+
+      </div>
+      
+      
+      
+    </div>
+  </section>
+  <footer class="bg-dark text-white p-5 text-center">
+    <p>&copy; 2024 mko. All rights reserved. Billeder er downloadet fra https://freepik.com</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js" crossorigin="anonymous"></script>
+
+  <script>
+    
+    // A $( document ).ready() block.
+    $( document ).ready(function() {
+
+      let sound = new Howl({
+        src: ['../sound/sound1.mp3']
+      });
+
+      function objToPos(posObject) {
+        let y=posObject.y+1.6;
+        return posObject.x + " " + y + " " + posObject.z;
+      }
+      document.querySelector('a-scene').addEventListener('enter-vr', function () {
+         console.log("ENTERED VR");
+         sound.play();
+      });
+      document.querySelector('a-scene').addEventListener('exit-vr', function () {
+         console.log("ENTERED VR");
+         sound.stop();
+      });
+
+    function clickhandler(targetPos) {
+     
+      
+      let cameraRig = document.querySelector('#rig');
+      //let camera1 = document.querySelector('#camera1');
+
+      //let targetPos = objToPos( target.getAttribute('position') );//floor
+
+      let camPos = objToPos( cameraRig.getAttribute('position') );
+      //let camRot = objToPos( cameraRig.getAttribute('rotation') );
+      //alert(camPos+" "+targetPos);
+      cameraRig.setAttribute('position', targetPos); //move camera
+      //let targetP = "0 0 0";
+      //camera1.setAttribute('animation', 'property: rotation; from: ${camRot}; to: ${targetP}; dur: 700;');
+      
+    }
+
+    function registerHandlerForClick(target){
+      target.addEventListener('click', function(e) {
+        //alert('click on floor');
+        //alert(e.detail.intersection.point);
+        /*for (i in e.detail.intersection.point) {
+          console.log(i + " " + e.detail.intersection.point[i]);
+        }
+        */
+        let targetPos = objToPos(e.detail.intersection.point);//floor
+        //alert(targetPos);
+        clickhandler(targetPos);
+      });
+    }
+    function setupHandlers() {
+      //alert('handlersetup');
+      
+      let myTargetList = document.querySelectorAll('.moveTarget');
+      let index = 0;
+      while (index < myTargetList.length){
+        registerHandlerForClick(myTargetList[index]);
+        index = index+1;
+      }
+      //registerHandlerForClick(myTarget);
+    }
+
+    setupHandlers();
+    //pre1.addEventListener('click', (event) => {
+    
+      
+
+  });
+
+    
+</script>
+</body>
+</html>

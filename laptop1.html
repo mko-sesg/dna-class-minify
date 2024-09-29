@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HTX - AR & VR</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <style>
+    @media only screen and (min-width: 900px) {
+      model-viewer {
+        width: 100vw;
+        height: 100vh;
+        }
+    }
+    @media only screen and (max-width: 800px) {
+      model-viewer {
+          width: 100vw;
+          height: 100vh;
+        }
+    }
+    showModel {
+        align-content: flex-start;
+        width: 100vw;
+        height: 100vh;
+    }
+    .hotspot{
+    display: block;
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    border: none;
+    background-color: blue;
+    box-sizing: border-box;
+    pointer-events: none;
+  }
+
+  .hotspot[slot="hotspot-hand"]{
+    --min-hotspot-opacity: 0;
+    background-color: red;
+  }
+
+  .hotspot[slot="hotspot-foot"]:not([data-visible]) {
+    background-color: transparent;
+    border: 3px solid blue;
+  }
+
+  .annotation{
+    background-color: #888888;
+    position: absolute;
+    transform: translate(10px, 10px);
+    border-radius: 10px;
+    padding: 10px;
+  }
+  /* This keeps child nodes hidden while the element loads */
+  :not(:defined) > * {
+    display: none;
+  }
+
+  .round-button {
+    width: 20px;
+    height: 20px;
+    background-color: #bac6ba; /* green background */
+    color: #fff; /* white text */
+    border: none; /* no border */
+    padding: 10px 20px; /* padding to make the button larger */
+    font-size: 16px; /* font size */
+    cursor: pointer; /* change cursor to pointer on hover */
+    border-radius: 50%; /* make the button round */
+}
+
+.round-button:hover {
+  background-color: #3e8e41; /* darker green on hover */
+}
+
+.wrapper {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+}
+
+</style>
+</head>
+<body>
+  <header class="bg-dark text-white p-5 text-center">
+    <h1 class="display-4">HTX - 3D laptop & Android</h1>
+  </header>
+  <section class="container mt-5">
+    <div class="row">
+      <div class="col-md-12">
+        
+        <div id="showModel">
+            <h1 id="myhead">DNA</h1>				
+             
+             <model-viewer id="mv1" src="models/dna5.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="neutral" poster="images/poster.jpeg" shadow-intensity="1" environment-image="models/textures/spruit_sunrise_1k.hdr">
+              <button id="1" class="Hotspot round-button" slot="hotspot-1" data-position="-2.4855866427972706m 1.0047171531539698m 0.24329121846259072m" data-normal="0.49498753601278467m -0.09536136082022102m 0.8636512896154952m" data-visibility-attribute="hide">
+                <span class="wrapper"> <div id="hotspot-1" class="HotspotAnnotation"></div>  </span>
+              </button><button id="2" class="Hotspot round-button" slot="hotspot-2" data-position="0.007020961209360355m -0.0017526187552829864m 0.04145568689363513m" data-normal="0.00007862736676390716m -0.3952304491316984m 0.9185819973725227m" data-visibility-attribute="visible">
+                <span class="wrapper"> <div id="hotspot-2" class="HotspotAnnotation"></div></span>
+              </button><button id="3" class="Hotspot round-button" slot="hotspot-3" data-position="-1.1128511076387442m 0.4879320489678901m 0.032232623944486755m" data-normal="-0.3639299702991429m 0.07273036131569542m 0.928582398746042m" data-visibility-attribute="visible">
+                <span class="wrapper"> <div id="hotspot-3" class="HotspotAnnotation"></div></span>
+              </button>
+              <div class="progress-bar hide" slot="progress-bar">
+                  <div class="update-bar"></div>
+              </div>
+              <button slot="ar-button" id="ar-button">
+                  View in your space
+              </button>
+              <div id="ar-prompt">
+                  <img src="images/hand.png">
+              </div>
+          </model-viewer>
+          
+
+           
+         </div>
+        
+      </div>      
+    </div>
+
+    <div class="row">
+        <div class="col-md-3">
+            <button id="primaryButton" type="button" class="btn btn-primary">DNA</button>
+        </div>
+        <div class="col-md-3">
+            <button id="secondaryButton" type="button" class="btn btn-secondary">Muteret DNA</button>
+        </div>
+        <div class="col-md-6">
+            
+        </div>
+    </div>
+
+  </section>
+  <footer class="bg-dark text-white p-5 text-center">
+    <p>&copy; 2024 mko. All rights reserved. Billeder er downloadet fra https://freepik.com</p>
+  </footer>
+
+
+   <!-- Import the component -->
+<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script  type="module" src="js/main.js"></script>
+   
+</body>
+</html>
